@@ -1,0 +1,13 @@
+POST http://localhost:3000/auth/login/email
+Authorization: Basic enppbmdvNUBnbWFpbC5jb206MTIzMTIz
+
+###
+
+POST http://localhost:3000/auth/register/email
+content-type: application/json
+
+{
+  "email": "zzingo5@gmail.com",
+  "password": "123123",
+  "nickname": "zzingo"
+}
