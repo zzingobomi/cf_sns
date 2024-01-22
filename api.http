@@ -1,4 +1,9 @@
+### 변수를 overwrite 하는 방법? 다른 파일의 변수를 이용하는 방법?
+### 결국 swagger 인가
 @baseUrl = http://localhost:3000
+@authEmail = zzingo3@gmail.com
+@authPassword = 123123
+@authNickname = zzingo3
 
 #########################
 ### Auth
@@ -6,31 +11,43 @@
 
 # @name login
 POST {{baseUrl}}/auth/login/email
-Authorization: Basic enppbmdvQGdtYWlsLmNvbToxMjMxMjM=
+Authorization: Basic {{authEmail}}:{{authPassword}}
 
 ###
 
 @accessToken = {{login.response.body.accessToken}}
 @refreshToken = {{login.response.body.refreshToken}}
 
+# @name register
 POST {{baseUrl}}/auth/register/email
 content-type: application/json
 
 {
-  "email": "zzingo@gmail.com",
-  "password": "123123",
-  "nickname": "zzingo"
+  "email": "{{authEmail}}",
+  "password": "{{authPassword}}",
+  "nickname": "{{authNickname}}"
 }
 
 ###
 
-POST {{baseUrl}}/auth/token/access
-Authorization: Bearer {{refreshToken}}
+@accessToken = {{register.response.body.accessToken}}
+@refreshToken = {{register.response.body.refreshToken}}
 
 ###
 
+# @name rotateAccess
+POST {{baseUrl}}/auth/token/access
+Authorization: Bearer {{refreshToken}}
+
+@accessToken = {{rotateAccess.response.body.accessToken}}
+
+###
+
+# @name rotateRefresh
 POST {{baseUrl}}/auth/token/refresh
 Authorization: Bearer {{refreshToken}}
+
+@refreshToken = {{rotateRefresh.response.body.accessToken}}
 
 #########################
 ### Posts
@@ -53,17 +70,17 @@ Authorization: Bearer {{accessToken}}
 content-type: application/json
 
 {  
-  "title": "포스트1",
-  "content": "포스트1 post 테스트"
+  "title": "포스트3",
+  "content": "포스트3 post 테스트"
 }
 
 ###
 
-PUT {{baseUrl}}/posts/2
+PATCH  {{baseUrl}}/posts/2
 content-type: application/json
 
 {
-  "title": "hori"
+  "title": "hori love"
 }
 
 ###

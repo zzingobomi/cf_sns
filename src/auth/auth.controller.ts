@@ -16,6 +16,7 @@ import {
   ApiSecurity,
   ApiTags,
 } from '@nestjs/swagger';
+import { RegisterUserDto } from './dto/register-user.dto';
 
 @Controller('auth')
 @ApiTags('Auth API')
@@ -62,12 +63,7 @@ export class AuthController {
   }
 
   @Post('register/email')
-  postRegisterEmail(
-    @Body('nickname') nickname: string,
-    @Body('email') email: string,
-    @Body('password', new MaxLengthPipe(8), new MinLengthPipe(3))
-    password: string,
-  ) {
-    return this.authService.registerWithEmail({ nickname, email, password });
+  postRegisterEmail(@Body() body: RegisterUserDto) {
+    return this.authService.registerWithEmail(body);
   }
 }
