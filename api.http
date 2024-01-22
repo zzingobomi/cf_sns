@@ -1,0 +1,90 @@
+@baseUrl = http://localhost:3000
+
+#########################
+### Auth
+#########################
+
+# @name login
+POST {{baseUrl}}/auth/login/email
+Authorization: Basic enppbmdvQGdtYWlsLmNvbToxMjMxMjM=
+
+###
+
+@accessToken = {{login.response.body.accessToken}}
+@refreshToken = {{login.response.body.refreshToken}}
+
+POST {{baseUrl}}/auth/register/email
+content-type: application/json
+
+{
+  "email": "zzingo@gmail.com",
+  "password": "123123",
+  "nickname": "zzingo"
+}
+
+###
+
+POST {{baseUrl}}/auth/token/access
+Authorization: Bearer {{refreshToken}}
+
+###
+
+POST {{baseUrl}}/auth/token/refresh
+Authorization: Bearer {{refreshToken}}
+
+#########################
+### Posts
+#########################
+
+GET {{baseUrl}}/posts
+
+###
+
+GET {{baseUrl}}/posts/1
+
+###
+
+GET {{baseUrl}}/posts/4
+
+###
+
+POST {{baseUrl}}/posts
+Authorization: Bearer {{accessToken}}
+content-type: application/json
+
+{  
+  "title": "포스트1",
+  "content": "포스트1 post 테스트"
+}
+
+###
+
+PUT {{baseUrl}}/posts/2
+content-type: application/json
+
+{
+  "title": "hori"
+}
+
+###
+
+DELETE {{baseUrl}}/posts/1
+
+#########################
+### Users
+#########################
+
+GET {{baseUrl}}/users
+
+###
+
+POST {{baseUrl}}/users
+content-type: application/json
+
+{
+  "nickname": "hori",
+  "email": "hori@hori.com",
+  "password": "123123"
+}
+
+###

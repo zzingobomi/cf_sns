@@ -10,12 +10,20 @@ import {
   AccessTokenGuard,
   RefreshTokenGuard,
 } from './guard/bearer-token.guard';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('Auth API')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('token/access')
+  @ApiBearerAuth()
   @UseGuards(RefreshTokenGuard)
   postTokenAccess(@Headers('authorization') rawToken: string) {
     const token = this.authService.extractTokenFromHeader(rawToken, true);
@@ -37,7 +45,14 @@ export class AuthController {
     };
   }
 
+  /**
+   *
+   * @param rawToken
+   * @returns
+   */
   @Post('login/email')
+  @ApiSecurity('basic')
+  @ApiOperation({ summary: '로그인 API', description: '로그인한다' })
   @UseGuards(BasicTokenGuard)
   postLoginEmail(@Headers('authorization') rawToken: string) {
     const token = this.authService.extractTokenFromHeader(rawToken, false);
