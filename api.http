@@ -9,7 +9,7 @@
 @authPassword = 123123
 @authNickname = zzingo
 
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDU5OTA2NzAsImV4cCI6MTcwNTk5MDk3MH0.B2jWoAdthfKoCweHSzqbX1HiWo86E7DWRoGL9Hm6DGU
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDYwMDMzNjgsImV4cCI6MTcwNjAwMzY2OH0.lbfeL5b9o84BJe1mLMvW7hqYXjkPyYjN6G3_sKmjvbU
 @refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzA1OTY2NTcyLCJleHAiOjE3MDU5NzAxNzJ9.qRss9xIrd0pO4VGxgh9g5jaeiAsdpp2g2y4DzgkIUEc
 
 #########################
@@ -52,7 +52,15 @@ Authorization: Bearer {{refreshToken}}
 GET {{baseUrl}}/posts
 ###
 
-GET {{baseUrl}}/posts?order__createdAt=DESC
+GET {{baseUrl}}/posts?order__createdAt=ASC
+
+###
+
+GET {{baseUrl}}/posts?order__createdAt=DESC&page=1&where__likeCount__more_than=49
+
+###
+
+GET {{baseUrl}}/posts?order__createdAt=DESC&page=1&where__likeCount__more_than=49&where__title__i_like=2
 
 ###
 
