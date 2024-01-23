@@ -4,6 +4,10 @@ import { PostModel } from 'src/posts/posts.service';
 import { PostsModel } from 'src/posts/entities/posts.entity';
 import { BaseModel } from 'src/common/entity/base.entity';
 import { IsString, Length, IsEmail } from 'class-validator';
+import { lengthValidationMessage } from 'src/common/validation-message/length-validation.message';
+import { stringValidationMessage } from 'src/common/validation-message/string-validation.message';
+import { emailValidationMessage } from 'src/common/validation-message/email-validation.message';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class UsersModel extends BaseModel {
@@ -11,22 +15,23 @@ export class UsersModel extends BaseModel {
     length: 20,
     unique: true,
   })
-  @IsString()
-  @Length(1, 20, {
-    message: '닉네임은 1~20자 사이로 입력해주세요.',
-  })
+  @IsString({ message: stringValidationMessage })
+  @Length(1, 20, { message: lengthValidationMessage })
   nickname: string;
 
   @Column({
     unique: true,
   })
-  @IsString()
-  @IsEmail()
+  @IsString({ message: stringValidationMessage })
+  @IsEmail({}, { message: emailValidationMessage })
   email: string;
 
   @Column()
-  @IsString()
-  @Length(3, 8)
+  @IsString({ message: stringValidationMessage })
+  @Length(3, 8, { message: lengthValidationMessage })
+  @Exclude({
+    toPlainOnly: true,
+  })
   password: string;
 
   @Column({

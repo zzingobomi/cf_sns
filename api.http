@@ -1,9 +1,16 @@
 ### 변수를 overwrite 하는 방법? 다른 파일의 변수를 이용하는 방법?
 ### 결국 swagger 인가
+### @accessToken = {{login.response.body.accessToken}}
+### @refreshToken = {{login.response.body.refreshToken}}
+### 변수 셋팅은 되나 overwrite 가 안됨....
+
 @baseUrl = http://localhost:3000
-@authEmail = zzingo3@gmail.com
+@authEmail = zzingo@gmail.com
 @authPassword = 123123
-@authNickname = zzingo3
+@authNickname = zzingo
+
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDU5OTA2NzAsImV4cCI6MTcwNTk5MDk3MH0.B2jWoAdthfKoCweHSzqbX1HiWo86E7DWRoGL9Hm6DGU
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzA1OTY2NTcyLCJleHAiOjE3MDU5NzAxNzJ9.qRss9xIrd0pO4VGxgh9g5jaeiAsdpp2g2y4DzgkIUEc
 
 #########################
 ### Auth
@@ -14,9 +21,6 @@ POST {{baseUrl}}/auth/login/email
 Authorization: Basic {{authEmail}}:{{authPassword}}
 
 ###
-
-@accessToken = {{login.response.body.accessToken}}
-@refreshToken = {{login.response.body.refreshToken}}
 
 # @name register
 POST {{baseUrl}}/auth/register/email
@@ -30,16 +34,9 @@ content-type: application/json
 
 ###
 
-@accessToken = {{register.response.body.accessToken}}
-@refreshToken = {{register.response.body.refreshToken}}
-
-###
-
 # @name rotateAccess
 POST {{baseUrl}}/auth/token/access
 Authorization: Bearer {{refreshToken}}
-
-@accessToken = {{rotateAccess.response.body.accessToken}}
 
 ###
 
@@ -47,13 +44,20 @@ Authorization: Bearer {{refreshToken}}
 POST {{baseUrl}}/auth/token/refresh
 Authorization: Bearer {{refreshToken}}
 
-@refreshToken = {{rotateRefresh.response.body.accessToken}}
 
 #########################
 ### Posts
 #########################
 
 GET {{baseUrl}}/posts
+###
+
+GET {{baseUrl}}/posts?order__createdAt=DESC
+
+###
+
+POST {{baseUrl}}/posts/random
+Authorization: Bearer {{accessToken}}
 
 ###
 
@@ -70,8 +74,8 @@ Authorization: Bearer {{accessToken}}
 content-type: application/json
 
 {  
-  "title": "포스트3",
-  "content": "포스트3 post 테스트"
+  "title": "포스트7",
+  "content": "포스트7 post 테스트"
 }
 
 ###
