@@ -9,7 +9,7 @@
 @authPassword = 123123
 @authNickname = zzingo
 
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDYwMDMzNjgsImV4cCI6MTcwNjAwMzY2OH0.lbfeL5b9o84BJe1mLMvW7hqYXjkPyYjN6G3_sKmjvbU
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDYwNzMwNjUsImV4cCI6MTcwNjA3MzM2NX0.RbfP1PpA5rS7cRFcCmcC_R4J-vJgfKYedY-ncTY0fDM
 @refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzA1OTY2NTcyLCJleHAiOjE3MDU5NzAxNzJ9.qRss9xIrd0pO4VGxgh9g5jaeiAsdpp2g2y4DzgkIUEc
 
 #########################
@@ -52,7 +52,7 @@ Authorization: Bearer {{refreshToken}}
 GET {{baseUrl}}/posts
 ###
 
-GET {{baseUrl}}/posts?order__createdAt=ASC
+GET {{baseUrl}}/posts?order__createdAt=DESC
 
 ###
 
@@ -82,9 +82,33 @@ Authorization: Bearer {{accessToken}}
 content-type: application/json
 
 {  
-  "title": "포스트7",
-  "content": "포스트7 post 테스트"
+  "title": "이미지 업로드 테스트",
+  "content": "이미지 업로드 테스트 내용",
+  "image": "d4ae070d-0c10-4942-9ec4-53ac7ff67a6f.jpeg"
 }
+
+###
+
+POST {{baseUrl}}/posts
+Authorization: Bearer {{accessToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="title"
+
+파일업로드
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="content"
+
+파일업로드 테스트
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="imagetest.jpeg"
+Content-Type: image/jpeg
+
+< ./imagetest.jpeg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###
 
@@ -116,4 +140,17 @@ content-type: application/json
   "password": "123123"
 }
 
-###
+#########################
+### Common
+#########################
+
+POST {{baseUrl}}/common/image
+Authorization: Bearer {{accessToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="imagetest.jpeg"
+Content-Type: image/jpeg
+
+< ./imagetest.jpeg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
