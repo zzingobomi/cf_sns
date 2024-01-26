@@ -1,76 +1,29 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PostsModel } from './entities/posts.entity';
-import { Repository } from 'typeorm';
+import { QueryRunner, Repository } from 'typeorm';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PaginatePostDto } from './dto/paginate-post.dto';
 import { CommonService } from 'src/common/common.service';
 import { ConfigService } from '@nestjs/config';
-import { promises } from 'fs';
-import { POST_IMAGE_PATH, TEMP_FOLDER_PATH } from 'src/common/const/path.const';
-import { basename, join } from 'path';
-
-/**
- * author: string;
- * title: string;
- * content: string;
- * likeCount: number;
- * commentCount: number;
- */
-
-export interface PostModel {
-  id: number;
-  author: string;
-  title: string;
-  content: string;
-  likeCount: number;
-  commentCount: number;
-}
-
-// let posts: PostModel[] = [
-//   {
-//     id: 1,
-//     author: 'zzingo',
-//     title: '포스트1',
-//     content: '포스트1 내용',
-//     likeCount: 10000,
-//     commentCount: 9999,
-//   },
-//   {
-//     id: 2,
-//     author: 'zzingo2',
-//     title: '포스트2',
-//     content: '포스트2 내용',
-//     likeCount: 10002,
-//     commentCount: 9992,
-//   },
-//   {
-//     id: 3,
-//     author: 'zzingo3',
-//     title: '포스트3',
-//     content: '포스트3 내용',
-//     likeCount: 10003,
-//     commentCount: 9993,
-//   },
-// ];
+import { ImageModel } from 'src/common/entity/image.entity';
+import { DEFAULT_POST_FIND_OPTIONS } from './const/default-post-find-options.const';
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectRepository(PostsModel)
     private readonly postsRepository: Repository<PostsModel>,
+    @InjectRepository(ImageModel)
+    private readonly imageRepository: Repository<ImageModel>,
     private readonly commonService: CommonService,
     private readonly configService: ConfigService,
   ) {}
 
   async getAllPosts() {
     return this.postsRepository.find({
-      relations: ['author'],
+      ...DEFAULT_POST_FIND_OPTIONS,
     });
   }
 
@@ -89,7 +42,9 @@ export class PostsService {
     return this.commonService.paginate(
       dto,
       this.postsRepository,
-      { relations: ['author'] },
+      {
+        ...DEFAULT_POST_FIND_OPTIONS,
+      },
       'posts',
     );
     // if (dto.page) {
@@ -184,12 +139,14 @@ export class PostsService {
   //   };
   // }
 
-  async getPostById(id: number) {
-    const post = await this.postsRepository.findOne({
+  async getPostById(id: number, qr?: QueryRunner) {
+    const repository = this.getRepository(qr);
+
+    const post = await repository.findOne({
+      ...DEFAULT_POST_FIND_OPTIONS,
       where: {
         id,
       },
-      relations: ['author'],
     });
 
     if (!post) {
@@ -199,38 +156,25 @@ export class PostsService {
     return post;
   }
 
-  async createPostImage(dto: CreatePostDto) {
-    // dto 의 이미지 이름을 기반으로 파일의 경로를 생성한다.
-    const tempFilePath = join(TEMP_FOLDER_PATH, dto.image);
-
-    try {
-      // 파일이 존재하는지 확인. 만약에 존재하지 않는다면 에러를 던짐
-      await promises.access(tempFilePath);
-    } catch (e) {
-      throw new BadRequestException('존재하지 않는 파일입니다.');
-    }
-
-    // 파일의 이름만 가져오기
-    const fileName = basename(tempFilePath);
-    const newPath = join(POST_IMAGE_PATH, fileName);
-
-    await promises.rename(tempFilePath, newPath);
-
-    return true;
+  getRepository(qr?: QueryRunner) {
+    return qr
+      ? qr.manager.getRepository<PostsModel>(PostsModel)
+      : this.postsRepository;
   }
 
-  // TODO:
-  async createPost(authorId: number, postDto: CreatePostDto) {
-    const post = this.postsRepository.create({
+  async createPost(authorId: number, postDto: CreatePostDto, qr?: QueryRunner) {
+    const repository = this.getRepository(qr);
+    const post = repository.create({
       author: {
         id: authorId,
       },
       ...postDto,
+      images: [],
       likeCount: 0,
       commentCount: 0,
     });
 
-    const newPost = await this.postsRepository.save(post);
+    const newPost = await repository.save(post);
 
     return newPost;
   }

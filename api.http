@@ -9,7 +9,7 @@
 @authPassword = 123123
 @authNickname = zzingo
 
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDYwNzMwNjUsImV4cCI6MTcwNjA3MzM2NX0.RbfP1PpA5rS7cRFcCmcC_R4J-vJgfKYedY-ncTY0fDM
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDYxMDM0NzMsImV4cCI6MTcwNjEwMzc3M30.E1c0dPACW5W1oSzMVJWmcZsxSm4Ei04AJwnwj1kdvA8
 @refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzA1OTY2NTcyLCJleHAiOjE3MDU5NzAxNzJ9.qRss9xIrd0pO4VGxgh9g5jaeiAsdpp2g2y4DzgkIUEc
 
 #########################
@@ -60,6 +60,10 @@ GET {{baseUrl}}/posts?order__createdAt=DESC&page=1&where__likeCount__more_than=4
 
 ###
 
+GET {{baseUrl}}/posts?order__createdAt=DESC&take=1
+
+###
+
 GET {{baseUrl}}/posts?order__createdAt=DESC&page=1&where__likeCount__more_than=49&where__title__i_like=2
 
 ###
@@ -79,36 +83,16 @@ GET {{baseUrl}}/posts/4
 
 POST {{baseUrl}}/posts
 Authorization: Bearer {{accessToken}}
-content-type: application/json
+Content-Type: application/json
 
 {  
-  "title": "이미지 업로드 테스트",
-  "content": "이미지 업로드 테스트 내용",
-  "image": "d4ae070d-0c10-4942-9ec4-53ac7ff67a6f.jpeg"
+  "title": "이미지 업로드 테스트2",
+  "content": "이미지 업로드 테스트2 내용",
+  "images": [
+    "793ec7f6-7245-4615-b7f1-177b982ccda4.jpg",
+    "da783c61-8f2b-413e-a429-9ea69d52294e.jpg"
+  ]
 }
-
-###
-
-POST {{baseUrl}}/posts
-Authorization: Bearer {{accessToken}}
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
-
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="title"
-
-파일업로드
-
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="content"
-
-파일업로드 테스트
-
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="image"; filename="imagetest.jpeg"
-Content-Type: image/jpeg
-
-< ./imagetest.jpeg
-------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###
 
@@ -149,8 +133,8 @@ Authorization: Bearer {{accessToken}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="image"; filename="imagetest.jpeg"
+Content-Disposition: form-data; name="image"; filename="testimage.jpg"
 Content-Type: image/jpeg
 
-< ./imagetest.jpeg
+< ./testimage.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--

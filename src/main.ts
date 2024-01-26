@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as expressBasicAuth from 'express-basic-auth';
 import { ValidationPipe } from '@nestjs/common';
+import { HttpExceptionFilter } from './common/exception-filter/http.exception-filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -17,6 +18,8 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  //app.useGlobalFilters(new HttpExceptionFilter());
 
   app.use(
     ['/api'],
