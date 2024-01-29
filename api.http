@@ -9,7 +9,7 @@
 @authPassword = 123123
 @authNickname = zzingo
 
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDYxMDM0NzMsImV4cCI6MTcwNjEwMzc3M30.E1c0dPACW5W1oSzMVJWmcZsxSm4Ei04AJwnwj1kdvA8
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDY0OTExOTIsImV4cCI6MTcwNjQ5MTQ5Mn0.XCBcrdzxwr1r4eua3vG7KP_Jtmm2asyjE6FluB8cBv4
 @refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzA1OTY2NTcyLCJleHAiOjE3MDU5NzAxNzJ9.qRss9xIrd0pO4VGxgh9g5jaeiAsdpp2g2y4DzgkIUEc
 
 #########################
@@ -138,3 +138,34 @@ Content-Type: image/jpeg
 
 < ./testimage.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+#########################
+### Comments
+#########################
+
+GET {{baseUrl}}/posts/107/comments
+
+###
+
+GET {{baseUrl}}/posts/107/comments/1
+
+###
+
+POST {{baseUrl}}/posts/107/comments
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{  
+  "comment": "강의 너무 좋아요!!"
+}
+
+###
+
+PATCH {{baseUrl}}/posts/107/comments/1
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{  
+  "comment": "Nest JS 너무 재밌어요!!"
+}
+
