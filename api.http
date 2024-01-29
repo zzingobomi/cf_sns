@@ -9,7 +9,7 @@
 @authPassword = 123123
 @authNickname = zzingo
 
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDY0OTExOTIsImV4cCI6MTcwNjQ5MTQ5Mn0.XCBcrdzxwr1r4eua3vG7KP_Jtmm2asyjE6FluB8cBv4
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDY1MTQ3MjAsImV4cCI6MTcwNjUxNTAyMH0.DkRn66M9IzLs41270GoTx-FbCBJV3bHUeu-F1WVwvHY
 @refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzA1OTY2NTcyLCJleHAiOjE3MDU5NzAxNzJ9.qRss9xIrd0pO4VGxgh9g5jaeiAsdpp2g2y4DzgkIUEc
 
 #########################
@@ -105,7 +105,8 @@ content-type: application/json
 
 ###
 
-DELETE {{baseUrl}}/posts/1
+DELETE {{baseUrl}}/posts/99
+Authorization: Bearer {{accessToken}}
 
 #########################
 ### Users
