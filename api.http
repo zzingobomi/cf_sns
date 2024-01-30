@@ -5,11 +5,11 @@
 ### 변수 셋팅은 되나 overwrite 가 안됨....
 
 @baseUrl = http://localhost:3000
-@authEmail = zzingo@gmail.com
+@authEmail = zzingo3@gmail.com
 @authPassword = 123123
-@authNickname = zzingo
+@authNickname = zzingo3
 
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3MDY1MTQ3MjAsImV4cCI6MTcwNjUxNTAyMH0.DkRn66M9IzLs41270GoTx-FbCBJV3bHUeu-F1WVwvHY
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nbzNAZ21haWwuY29tIiwic3ViIjo0LCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzA2NTc2MTAyLCJleHAiOjE3MDY1NzY0MDJ9.fZYxQbhWAAsCdLOCx1kGETlLDU2dhs9QuJR8RLEAZOY
 @refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inp6aW5nb0BnbWFpbC5jb20iLCJzdWIiOjEsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzA1OTY2NTcyLCJleHAiOjE3MDU5NzAxNzJ9.qRss9xIrd0pO4VGxgh9g5jaeiAsdpp2g2y4DzgkIUEc
 
 #########################
@@ -86,21 +86,20 @@ Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {  
-  "title": "이미지 업로드 테스트2",
-  "content": "이미지 업로드 테스트2 내용",
-  "images": [
-    "793ec7f6-7245-4615-b7f1-177b982ccda4.jpg",
-    "da783c61-8f2b-413e-a429-9ea69d52294e.jpg"
+  "title": "포스트 1",
+  "content": "포스트 1 내용",
+  "images": [    
   ]
 }
 
 ###
 
-PATCH  {{baseUrl}}/posts/2
+PATCH  {{baseUrl}}/posts/108
+Authorization: Bearer {{accessToken}}
 content-type: application/json
 
 {
-  "title": "hori love"
+  "title": "hori love3"
 }
 
 ###
